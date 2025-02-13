@@ -10,6 +10,8 @@ u_D = u_D_ind / np.sqrt(2)
 
 Vs = 1e3 * np.array((3.0,3.5,4.0,4.5,5.0))
 
+u_V = 1e3 * 0.1 / np.sqrt(12)
+
 recta = lambda x, k : k*x
 
 k1, u_k1 = curve_fit(recta, 1/np.sqrt(Vs), D1s, sigma = u_D)
