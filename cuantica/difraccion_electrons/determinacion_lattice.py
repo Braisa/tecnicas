@@ -5,7 +5,8 @@ from scipy.optimize import curve_fit
 D1s = 1e-3 * np.array((29.845,27.650,25.870,24.915,22.550))
 D2s = 1e-3 * np.array((51.280,46.800,43.185,40.305,38.455))
 
-u_D = 1e-3 * 0.10
+u_D_ind = 1e-3 * 0.1
+u_D = u_D_ind / np.sqrt(2)
 
 Vs = 1e3 * np.array((3.0,3.5,4.0,4.5,5.0))
 
@@ -18,13 +19,16 @@ fig, ax = plt.subplots()
 
 xlin = np.linspace(.95*np.min(1/np.sqrt(Vs)), 1.05*np.max(1/np.sqrt(Vs)), 1000)
 
-ax.plot(xlin, recta(xlin, k1), ls = "dashed", color = "tab:orange", label = "k1")
-ax.plot(xlin, recta(xlin, k2), ls = "dashed", color = "tab:green", label = "k2")
-ax.plot(1/np.sqrt(Vs), D1s, "o", color = "tab:red")
-ax.plot(1/np.sqrt(Vs), D2s, "o", color = "tab:gray")
+ax.plot(xlin, 1e3 * recta(xlin, k1), ls = "dashed", color = "tab:orange", label = " ")
+ax.plot(xlin, 1e3 * recta(xlin, k2), ls = "dashed", color = "tab:green", label = " ")
+ax.plot(1/np.sqrt(Vs), 1e3 * D1s, "o", color = "tab:orange", label = r"$k_1$")
+ax.plot(1/np.sqrt(Vs), 1e3 * D2s, "^", color = "tab:green", label = r"$k_2$")
 
 ax.set_xlim(left = np.min(xlin), right = np.max(xlin))
-ax.legend(loc = "best")
+ax.legend(loc = "best", ncol = 2, handletextpad = 0.3, columnspacing = -0.6)
+
+ax.set_xlabel(r"$V_A^{-\dfrac{1}{2}}$ (V$^{-\dfrac{1}{2}}$)")
+ax.set_ylabel(r"$D$ (mm)")
 
 fig.savefig("cuantica/difraccion_electrons/determinacion_lattice.pdf", dpi = 300, bbox_inches = "tight")
 
