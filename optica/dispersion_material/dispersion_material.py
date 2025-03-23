@@ -64,13 +64,13 @@ dev["x"] = 1/(dev["lam"]**2)
 popt_recta, pcov_recta = curve_fit(recta, dev["x"], dev["index"], sigma = dev["s_index"])
 popt_cauchy, pcov_cauchy = curve_fit(cauchy, dev["lam"], dev["index"], sigma = dev["s_index"])
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(4,4))
 
 lamlin = np.linspace(485, 630, 1000)
 
 ax.plot(lamlin, cauchy(lamlin * 1e-9, *popt_cauchy), ls = "solid", color = "tab:blue", label = "Ajuste")
 #ax.plot(dev["lam"] * 1e9, dev["index"], "o", color = "tab:orange", label = "Medidas")
-ax.errorbar(dev["lam"] * 1e9, dev["index"], yerr = dev["s_index"], fmt = "o", capsize = 10, color = "tab:orange", label = "Medidas")
+ax.errorbar(dev["lam"] * 1e9, dev["index"], yerr = 2*dev["s_index"], fmt = ".", capsize = 3, color = "tab:orange", label = "Medidas")
 
 ax.set_xlabel(r"$\lambda$ (nm)")
 ax.set_ylabel(r"$n$")
@@ -78,17 +78,21 @@ ax.set_ylabel(r"$n$")
 ax.set_xlim(left = np.min(lamlin), right = np.max(lamlin))
 
 ax.legend(loc = "best")
-
+ax.xaxis.set_major_locator(plt.MultipleLocator(30))
+ax.xaxis.set_minor_locator(plt.MultipleLocator(5))
+ax.yaxis.set_major_locator(plt.MultipleLocator(0.01))
+ax.yaxis.set_minor_locator(plt.MultipleLocator(0.0025))
+fig.tight_layout()
 fig.tight_layout()
 fig.savefig("optica/dispersion_material/cauchy.pdf", dpi = 300, bbox_inches = "tight")
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(4,4))
 
 xlin = 1/(np.linspace(485e-9, 630e-9, 1000))**2
 
 ax.plot(xlin * 1e-12, recta(xlin, *popt_recta), ls = "solid", color = "tab:blue", label = "Ajuste")
 #ax.plot(dev["x"] * 1e-12, dev["index"], "o", color = "tab:orange", label = "Medidas")
-ax.errorbar(dev["x"] * 1e-12, dev["index"], yerr = dev["s_index"], fmt = "o", capsize = 10, color = "tab:orange", label = "Medidas")
+ax.errorbar(dev["x"] * 1e-12, dev["index"], yerr = 2*dev["s_index"], fmt = ".", capsize = 3, color = "tab:orange", label = "Medidas")
 
 ax.set_xlabel(r"$x$ ($\mu$m$^{-2}$)")
 ax.set_ylabel(r"$n$")
@@ -96,7 +100,10 @@ ax.set_ylabel(r"$n$")
 ax.set_xlim(left = np.min(xlin*1e-12), right = np.max(xlin*1e-12))
 
 ax.legend(loc = "best")
-
+ax.xaxis.set_major_locator(plt.MultipleLocator(0.5))
+ax.xaxis.set_minor_locator(plt.MultipleLocator(0.1))
+ax.yaxis.set_major_locator(plt.MultipleLocator(0.01))
+ax.yaxis.set_minor_locator(plt.MultipleLocator(0.0025))
 fig.tight_layout()
 fig.savefig("optica/dispersion_material/recta.pdf", dpi = 300, bbox_inches = "tight")
 
