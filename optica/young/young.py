@@ -58,7 +58,7 @@ s_lam1, s_lam2 = s_lam(lam1,b1,d1r,sb1,s_d1r), s_lam(lam2,b2,d2r,sb2,s_d2r)
 r1 = r2_score(yg["i1"].drop(3), recta(yg["Dr1"].drop(3), b1))
 r2 = r2_score(yg["i2"].drop(1), recta(yg["Dr2"].drop(1), b2))
 
-fig, ax = plt.subplots(figsize=(6,12))
+"""fig, ax = plt.subplots(figsize=(6,12))
 
 Dlin = np.linspace(30.5, 48.5, 1000)
 
@@ -67,6 +67,15 @@ ax.plot(Dlin, recta(Dlin, b2*10), ls = "dashed", color = "tab:purple", label = "
 
 ax.errorbar(yg["Dr1"].drop(3) * 1e2, yg["i1"].drop(3) * 1e3, yerr = yg["s_i1"].drop(3) * 1e3, fmt = ".", capsize = 3, color = "tab:orange", label = "Medidas Pareja I")
 ax.errorbar(yg["Dr2"].drop(1) * 1e2, yg["i2"].drop(1) * 1e3, yerr = yg["s_i2"].drop(1) * 1e3, fmt = ".", capsize = 3, color = "tab:pink", label = "Medidas Pareja II")
+"""
+
+fig, ax = plt.subplots(figsize = (4,4))
+
+Dlin = np.linspace(30.5, 48.5, 1000)
+
+ax.plot(Dlin, recta(Dlin, b1*10), ls = "dashed", color = "tab:blue", label = "Ajuste")
+ax.errorbar(yg["Dr1"].drop(3) * 1e2, yg["i1"].drop(3) * 1e3, yerr = yg["s_i1"].drop(3) * 1e3, fmt = ".", capsize = 3, color = "tab:orange", label = "Medidas")
+ax.errorbar(yg["Dr1"][3] * 1e2, yg["i1"][3] * 1e3, yerr = yg["s_i1"][3] * 1e3, fmt = ".", capsize = 3, color = "tab:red", label = "Eliminado")
 
 ax.set_xlabel(r"$D$ (cm)")
 ax.set_ylabel(r"$i$ (mm)")
@@ -74,6 +83,31 @@ ax.set_ylabel(r"$i$ (mm)")
 ax.set_xlim(left = np.min(Dlin), right = np.max(Dlin))
 
 ax.legend(loc = "best")
-
+ax.xaxis.set_major_locator(plt.MultipleLocator(3))
+ax.xaxis.set_minor_locator(plt.MultipleLocator(0.5))
+ax.yaxis.set_major_locator(plt.MultipleLocator(0.05))
+ax.yaxis.set_minor_locator(plt.MultipleLocator(0.01))
 plt.tight_layout()
-fig.savefig("optica/young/young.pdf", dpi = 300, bbox_inches = "tight")
+fig.savefig("optica/young/young_pareja1.pdf", dpi = 300, bbox_inches = "tight")
+
+fig, ax = plt.subplots(figsize = (4,4))
+
+Dlin = np.linspace(32.2, 46.6, 1000)
+
+ax.plot(Dlin, recta(Dlin, b2*10), ls = "dashed", color = "tab:blue", label = "Ajuste")
+ax.errorbar(yg["Dr2"].drop(1) * 1e2, yg["i2"].drop(1) * 1e3, yerr = yg["s_i2"].drop(1) * 1e3, fmt = ".", capsize = 3, color = "tab:orange", label = "Medidas")
+ax.errorbar(yg["Dr2"][1] * 1e2, yg["i2"][1] * 1e3, yerr = yg["s_i2"][1] * 1e3, fmt = ".", capsize = 3, color = "tab:red", label = "Eliminado")
+
+ax.set_xlabel(r"$D$ (cm)")
+ax.set_ylabel(r"$i$ (mm)")
+
+ax.set_xlim(left = np.min(Dlin), right = np.max(Dlin))
+
+ax.legend(loc = "best")
+ax.xaxis.set_major_locator(plt.MultipleLocator(3))
+ax.xaxis.set_minor_locator(plt.MultipleLocator(0.5))
+ax.yaxis.set_major_locator(plt.MultipleLocator(0.05))
+ax.yaxis.set_minor_locator(plt.MultipleLocator(0.01))
+plt.tight_layout()
+fig.savefig("optica/young/young_pareja2.pdf", dpi = 300, bbox_inches = "tight")
+
