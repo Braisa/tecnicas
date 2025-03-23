@@ -68,7 +68,7 @@ fig, ax = plt.subplots()
 
 lamlin = np.linspace(485, 630, 1000)
 
-ax.plot(lamlin, cauchy(lamlin * 1e-9, *popt_cauchy), ls = "solid", color = "tab:blue", label = "Axuste")
+ax.plot(lamlin, cauchy(lamlin * 1e-9, *popt_cauchy), ls = "solid", color = "tab:blue", label = "Ajuste")
 #ax.plot(dev["lam"] * 1e9, dev["index"], "o", color = "tab:orange", label = "Medidas")
 ax.errorbar(dev["lam"] * 1e9, dev["index"], yerr = dev["s_index"], fmt = "o", capsize = 10, color = "tab:orange", label = "Medidas")
 
@@ -79,13 +79,14 @@ ax.set_xlim(left = np.min(lamlin), right = np.max(lamlin))
 
 ax.legend(loc = "best")
 
+fig.tight_layout()
 fig.savefig("optica/dispersion_material/cauchy.pdf", dpi = 300, bbox_inches = "tight")
 
 fig, ax = plt.subplots()
 
 xlin = 1/(np.linspace(485e-9, 630e-9, 1000))**2
 
-ax.plot(xlin * 1e-12, recta(xlin, *popt_recta), ls = "solid", color = "tab:blue", label = "Axuste")
+ax.plot(xlin * 1e-12, recta(xlin, *popt_recta), ls = "solid", color = "tab:blue", label = "Ajuste")
 #ax.plot(dev["x"] * 1e-12, dev["index"], "o", color = "tab:orange", label = "Medidas")
 ax.errorbar(dev["x"] * 1e-12, dev["index"], yerr = dev["s_index"], fmt = "o", capsize = 10, color = "tab:orange", label = "Medidas")
 
@@ -96,6 +97,7 @@ ax.set_xlim(left = np.min(xlin*1e-12), right = np.max(xlin*1e-12))
 
 ax.legend(loc = "best")
 
+fig.tight_layout()
 fig.savefig("optica/dispersion_material/recta.pdf", dpi = 300, bbox_inches = "tight")
 
 print(r2_score(dev["index"], recta(dev["x"], *popt_recta)))
