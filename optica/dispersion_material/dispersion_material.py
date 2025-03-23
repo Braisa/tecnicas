@@ -69,8 +69,8 @@ fig, ax = plt.subplots()
 lamlin = np.linspace(485, 630, 1000)
 
 ax.plot(lamlin, cauchy(lamlin * 1e-9, *popt_cauchy), ls = "solid", color = "tab:blue", label = "Axuste")
-ax.plot(dev["lam"] * 1e9, dev["index"], "o", color = "tab:orange", label = "Medidas")
-#ax.errorbar(dev["lam"] * 1e9, dev["index"], yerr = 5e-3, fmt = "o", capsize = 1, color = "tab:orange", label = "Medidas")
+#ax.plot(dev["lam"] * 1e9, dev["index"], "o", color = "tab:orange", label = "Medidas")
+ax.errorbar(dev["lam"] * 1e9, dev["index"], yerr = dev["s_index"], fmt = "o", capsize = 10, color = "tab:orange", label = "Medidas")
 
 ax.set_xlabel(r"$\lambda$ (nm)")
 ax.set_ylabel(r"$n$")
@@ -86,8 +86,8 @@ fig, ax = plt.subplots()
 xlin = 1/(np.linspace(485e-9, 630e-9, 1000))**2
 
 ax.plot(xlin * 1e-12, recta(xlin, *popt_recta), ls = "solid", color = "tab:blue", label = "Axuste")
-ax.plot(dev["x"] * 1e-12, dev["index"], "o", color = "tab:orange", label = "Medidas")
-#ax.errorbar(dev["lam"] * 1e9, dev["index"], yerr = 5e-3, fmt = "o", capsize = 1, color = "tab:orange", label = "Medidas")
+#ax.plot(dev["x"] * 1e-12, dev["index"], "o", color = "tab:orange", label = "Medidas")
+ax.errorbar(dev["x"] * 1e-12, dev["index"], yerr = dev["s_index"], fmt = "o", capsize = 10, color = "tab:orange", label = "Medidas")
 
 ax.set_xlabel(r"$x$ ($\mu$m$^{-2}$)")
 ax.set_ylabel(r"$n$")
