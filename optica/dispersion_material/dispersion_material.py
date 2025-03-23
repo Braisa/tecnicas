@@ -68,7 +68,7 @@ fig, ax = plt.subplots(figsize=(4,4))
 
 lamlin = np.linspace(485, 630, 1000)
 
-ax.plot(lamlin, cauchy(lamlin * 1e-9, *popt_cauchy), ls = "solid", color = "tab:blue", label = "Ajuste")
+ax.plot(lamlin, cauchy(lamlin * 1e-9, *popt_cauchy), ls = "dashed", color = "tab:blue", label = "Ajuste")
 #ax.plot(dev["lam"] * 1e9, dev["index"], "o", color = "tab:orange", label = "Medidas")
 ax.errorbar(dev["lam"] * 1e9, dev["index"], yerr = 2*dev["s_index"], fmt = ".", capsize = 3, color = "tab:orange", label = "Medidas")
 
@@ -90,7 +90,7 @@ fig, ax = plt.subplots(figsize=(4,4))
 
 xlin = 1/(np.linspace(485e-9, 630e-9, 1000))**2
 
-ax.plot(xlin * 1e-12, recta(xlin, *popt_recta), ls = "solid", color = "tab:blue", label = "Ajuste")
+ax.plot(xlin * 1e-12, recta(xlin, *popt_recta), ls = "dashed", color = "tab:blue", label = "Ajuste")
 #ax.plot(dev["x"] * 1e-12, dev["index"], "o", color = "tab:orange", label = "Medidas")
 ax.errorbar(dev["x"] * 1e-12, dev["index"], yerr = 2*dev["s_index"], fmt = ".", capsize = 3, color = "tab:orange", label = "Medidas")
 
