@@ -11,10 +11,14 @@ fig, ax = plt.subplots()
 
 theta_lin = np.radians(np.linspace(0, 360, 100))
 
-ax.add_patch(pch.Ellipse((0,0),2*a1,2*b1,angle = o1, fill = False))
+ax.add_patch(pch.Ellipse((0,0),2*a1,2*b1,angle = o1, fill = False, color = "tab:purple", label = r"$\theta_0 = 25^\circ$"))
+ax.add_patch(pch.Ellipse((0,0),2*a1,2*b1,angle = 30, fill = False, color = "tab:blue", label = r"$\theta_0 = 30^\circ$"))
+
 ax.plot(np.sqrt(P)*np.cos(theta), np.sqrt(P)*np.sin(theta), "o", color = "tab:orange", label = "Medidas")
 
 ax.set_xlabel(r"$x$")
 ax.set_ylabel(r"$y$")
+
+ax.legend(loc = "best")
 
 fig.savefig("optica/polarizacion/elipse.pdf", dpi = 300, bbox_inches = "tight")
