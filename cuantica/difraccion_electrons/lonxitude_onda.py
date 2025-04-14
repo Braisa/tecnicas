@@ -9,7 +9,7 @@ D2s_ext = 1e-3 * np.array((54.79,50.27,46.40,41.83,41.04))
 D1s = (D1s_int + D1s_ext)/2
 D2s = (D2s_int + D2s_ext)/2
 
-u_D_ie = 1e-3 * 0.05
+u_D_ie = 1e-3 * 0.50
 u_D = u_D_ie / np.sqrt(2)
 
 Vs = 1e3 * np.array((3.0,3.5,4.0,4.5,5.0))
@@ -17,11 +17,12 @@ Vs = 1e3 * np.array((3.0,3.5,4.0,4.5,5.0))
 u_V = 1e3 * 0.1 / np.sqrt(12)
 
 L = 13.5e-2
+u_L = 0.05e-2
 
 d_1_th, d_2_th = 2.13e-10, 1.23e-10
 
 lonxitude = lambda D, d : D*d / (2*L)
-u_lonxitude = lambda lonx, D, u_D : lonx * u_D / D
+u_lonxitude = lambda lonx, D, u_D : lonx * np.sqrt((u_D/D)**2 + (u_L/L)**2)
 
 lonx_1s = lonxitude(D1s, d_1_th)
 u_lonx_1s = u_lonxitude(lonx_1s, D1s, u_D)
