@@ -16,7 +16,7 @@ recta = lambda x, k : k*x
 k1, u_k1 = curve_fit(recta, 1/np.sqrt(Vs), D1s, sigma = u_D)
 k2, u_k2 = curve_fit(recta, 1/np.sqrt(Vs), D2s, sigma = u_D)
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(5,4))
 
 xlin = np.linspace(.95*np.min(1/np.sqrt(Vs)), 1.05*np.max(1/np.sqrt(Vs)), 1000)
 
