@@ -97,8 +97,10 @@ for i, (file, cl, l, lr) in enumerate(zip(files, colors, labels, labels_readable
         ax_peak.set_xlabel(r"$U_1$ (V)")
         ax_peak.set_ylabel(r"$I$ (nA)")
 
+        ax_peak.legend(loc = "best")
+
         fig_peak.tight_layout()
-        fig_peak.savefig(path + f"curva_{lr}/" + name + ".pdf", dpi = 300, bbox_inches = "tight")
+        fig_peak.savefig(path + f"curva_{lr}/{lr}_" + name + ".pdf", dpi = 300, bbox_inches = "tight")
 
     """
     max_md = np.average(deltas_maxs, weights = u_deltas_maxs**-2)
