@@ -22,6 +22,7 @@ sub_plasma = cmr.get_sub_cmap(plasma, .2, .9)
 colors = sub_plasma(np.linspace(0, 1, np.size(filenames)))
 labels = (r"$U_2 = 0.4$ V",r"$U_2 = 0.7$ V",r"$U_2 = 1.0$ V",
           r"$U_2 = 1.5$ V",r"$U_2 = 2.0$ V",r"$U_2 = 2.5$ V")
+labels_readable = ("0_4","0_7","1_0","1_5","2_0","2_5")
 
 fig, ax = plt.subplots(figsize = (4,4))
 U_max = 0
@@ -39,12 +40,12 @@ peak_half_width = 25
 # For peak distances
 u_distance = lambda u1, u2 : np.sqrt(u1**2 + u2**2)
 
-for i, (file, c, l) in enumerate(zip(files, colors, labels)):
-    ax.plot(file["U"], file["I"], marker = ",", color = c, label = l)
+for i, (file, cl, l, lr) in enumerate(zip(files, colors, labels, labels_readable)):
+    ax.plot(file["U"], file["I"], marker = ",", color = cl, label = l)
     U_max = np.max((U_max, np.max(file["U"])))
     
     peaks, _ = find_peaks(file["I"], height = peak_min_heights[i], distance = distances[i])
-    ax.plot(file["U"][peaks], file["I"][peaks], "o", color = c)
+    #ax.plot(file["U"][peaks], file["I"][peaks], "o", color = cl)
 
     deltas_maxs, u_deltas_maxs = np.array(()), np.array(())
     deltas_mins, u_deltas_mins = np.array(()), np.array(())
@@ -62,11 +63,13 @@ for i, (file, c, l) in enumerate(zip(files, colors, labels)):
 
         match j % 2:
             case 0:
+                name = "max" + str(int((j+2)/2))
                 if j > 0:
                     deltas_maxs = np.append(deltas_maxs, vert-prev_max)
                     u_deltas_maxs = np.append(u_deltas_maxs, u_distance(u_prev_max, u_vert))
                 prev_max, u_prev_max = vert, u_vert
             case 1:
+                name = "min" + str(int(1+(j-1)/2))
                 if j > 1:
                     deltas_mins = np.append(deltas_mins, vert-prev_min)
                     u_deltas_mins = np.append(u_deltas_mins, u_distance(u_prev_min, u_vert))
@@ -78,10 +81,24 @@ for i, (file, c, l) in enumerate(zip(files, colors, labels)):
         print(f"c = {c}({u_c})")
         print(f"v = {vert}({u_vert})")
         print("\n")
-        """
 
         ax.plot(file["U"][neighboring_pos], parab(file["U"][neighboring_pos], *popt), color = "tab:gray")
         ax.plot(vert, parab(vert, *popt), "x", color = "tab:gray")
+        """
+
+        fig_peak, ax_peak = plt.subplots()
+
+        ax_peak.plot(file["U"][neighboring_pos], file["I"][neighboring_pos], "x", color = cl, label = "Medidas")
+        ax_peak.plot(file["U"][neighboring_pos], parab(file["U"][neighboring_pos], *popt), ls = "solid", color = cl, label = "Axuste")
+        ax_peak.plot(vert, parab(vert, *popt), "o", color = cl, label = "Vértice")
+
+        ax_peak.set_xlim(left = .99*np.min(file["U"][neighboring_pos]), right = 1.01*np.max(file["U"][neighboring_pos]))
+
+        ax_peak.set_xlabel(r"$U_1$ (V)")
+        ax_peak.set_ylabel(r"$I$ (nA)")
+
+        fig_peak.tight_layout()
+        fig_peak.savefig(path + f"curva_{lr}/" + name + ".pdf", dpi = 300, bbox_inches = "tight")
 
     """
     max_md = np.average(deltas_maxs, weights = u_deltas_maxs**-2)
@@ -115,4 +132,4 @@ ax.yaxis.set_major_locator(plt.AutoLocator())
 ax.yaxis.set_minor_locator(plt.MultipleLocator(1))
 
 fig.tight_layout()
-fig.savefig(path + "curvas_parab.pdf", dpi = 300, bbox_inches = "tight")
+fig.savefig(path + "curvas.pdf", dpi = 300, bbox_inches = "tight")
