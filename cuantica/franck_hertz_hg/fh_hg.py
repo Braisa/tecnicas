@@ -93,6 +93,8 @@ for i, (file, cl, l, lr) in enumerate(zip(files, colors, labels, labels_readable
         ax_peak.plot(vert, parab(vert, *popt), "o", color = cl, label = "Vértice")
 
         ax_peak.set_xlim(left = .99*np.min(file["U"][neighboring_pos]), right = 1.01*np.max(file["U"][neighboring_pos]))
+        if lr == "2_5" and name == "min3":
+            ax_peak.set_xlim(right = 1.01*vert)
 
         ax_peak.set_xlabel(r"$U_1$ (V)")
         ax_peak.set_ylabel(r"$I$ (nA)")
