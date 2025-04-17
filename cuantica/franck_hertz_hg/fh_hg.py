@@ -25,6 +25,7 @@ labels = (r"$U_2 = 0.4$ V",r"$U_2 = 0.7$ V",r"$U_2 = 1.0$ V",
 labels_readable = ("0_4","0_7","1_0","1_5","2_0","2_5")
 
 fig, ax = plt.subplots(figsize = (4,4))
+fig_v, ax_v = plt.subplots(figsize = (4,4))
 U_max = 0
 
 # For peaks
@@ -42,6 +43,7 @@ u_distance = lambda u1, u2 : np.sqrt(u1**2 + u2**2)
 
 for i, (file, cl, l, lr) in enumerate(zip(files, colors, labels, labels_readable)):
     ax.plot(file["U"], file["I"], marker = ",", color = cl, label = l)
+    ax_v.plot(file["U"], file["I"], marker = ",", color = cl, label = l)
     U_max = np.max((U_max, np.max(file["U"])))
     
     peaks, _ = find_peaks(file["I"], height = peak_min_heights[i], distance = distances[i])
@@ -81,12 +83,11 @@ for i, (file, cl, l, lr) in enumerate(zip(files, colors, labels, labels_readable
         print(f"c = {c}({u_c})")
         print(f"v = {vert}({u_vert})")
         print("\n")
-
-        ax.plot(file["U"][neighboring_pos], parab(file["U"][neighboring_pos], *popt), color = "tab:gray")
-        ax.plot(vert, parab(vert, *popt), "x", color = "tab:gray")
         """
+        #ax_v.plot(file["U"][neighboring_pos], parab(file["U"][neighboring_pos], *popt), color = "tab:gray")
+        ax_v.plot(vert, parab(vert, *popt), "o", color = "tab:gray")
 
-        fig_peak, ax_peak = plt.subplots()
+        fig_peak, ax_peak = plt.subplots(figsize = (4,4))
 
         ax_peak.plot(file["U"][neighboring_pos], file["I"][neighboring_pos], "x", color = cl, label = "Medidas")
         ax_peak.plot(file["U"][neighboring_pos], parab(file["U"][neighboring_pos], *popt), ls = "solid", color = cl, label = "Axuste")
@@ -137,3 +138,25 @@ ax.yaxis.set_minor_locator(plt.MultipleLocator(1))
 
 fig.tight_layout()
 fig.savefig(path + "curvas.pdf", dpi = 300, bbox_inches = "tight")
+
+ax_v.set_xlabel(r"$U_1$ (V)")
+ax_v.set_ylabel(r"$I$ (nA)")
+
+ax_v.set_yscale("function", functions = (lambda x : x**(1/3), lambda x : x**3))
+
+cbar = fig.colorbar(mpl.cm.ScalarMappable(norm = norm, cmap = sub_plasma),
+                    ax = ax_v, orientation = "vertical", label = r"$U_2$ (V)")
+cbar.ax.set_yticks((0.4,0.7,1.05,1.5,2.0,2.5))
+cbar.ax.set_yticklabels((0.4,0.7,1.0,1.5,2.0,2.5))
+cbar.ax.minorticks_off()
+
+ax_v.set_xlim(left = 0, right = U_max)
+ax_v.set_ylim(bottom = 0.007)
+
+ax_v.xaxis.set_major_locator(plt.MultipleLocator(10))
+ax_v.xaxis.set_minor_locator(plt.MultipleLocator(2))
+ax_v.yaxis.set_major_locator(plt.AutoLocator())
+ax_v.yaxis.set_minor_locator(plt.MultipleLocator(1))
+
+fig_v.tight_layout()
+fig_v.savefig(path + "curvas_vertex.pdf", dpi = 300, bbox_inches = "tight")
