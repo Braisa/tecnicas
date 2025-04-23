@@ -6,6 +6,10 @@ u_V = 1e3 * 0.1 / np.sqrt(12)
 q = 1.6021e-19
 m = 9.1091e-31
 c = 299_792_458
+h = 6.6256e-34
+
+lonx_broglie = lambda V_A : h / np.sqrt(2*m*q*V_A)
+u_lonx_broglie = lambda lonx_brog, V_A, u_V_A : lonx_brog * u_V_A / V_A / 2
 
 corrix = lambda V : 1 - (q*V/m/c**2)
 u_corrix = lambda corrix, V : corrix*u_V/V
